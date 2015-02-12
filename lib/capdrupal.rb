@@ -135,9 +135,9 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     desc "Gets drush and installs it"
     task :get, :roles => :app, :except => { :no_release => true } do
-      run "#{try_sudo} cd #{shared_path} && wget https://github.com/drush-ops/drush/archive/6.5.0.tar.gz && tar -xf 6.5.0.tar.gz && rm 6.5.0.tar.gz"
-      run "#{try_sudo} cd #{shared_path} && mkdir drush && mv drush-6.5.0 drush/drush"
-      run "#{try_sudo} cd #{shared_path} && chmod u+x drush/drush"
+      run "cd #{shared_path} && wget https://github.com/drush-ops/drush/archive/6.5.0.tar.gz && tar -xf 6.5.0.tar.gz && rm 6.5.0.tar.gz"
+      run "cd #{shared_path} && mkdir drush && mv drush-6.5.0 drush/drush"
+      run "cd #{shared_path} && chmod u+x drush/drush"
     end
 
     desc "Set the site offline"
