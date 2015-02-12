@@ -34,14 +34,14 @@ Capistrano::Configuration.instance(:must_exist).load do
       drush.get
     end
 
-    drupal.symlink_shared
+  #   drupal.symlink_shared
 
-    drush.site_offline
-    drush.updatedb
-    drush.cache_clear
-    # drush.feature_revert
-    drush.site_online
-    drush.cache_clear
+  #   drush.site_offline
+  #   drush.updatedb
+  #   drush.cache_clear
+  #   # drush.feature_revert
+  #   drush.site_online
+  #   drush.cache_clear
   end
 
   # This is an optional step that can be defined.
