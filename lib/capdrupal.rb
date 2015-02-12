@@ -19,23 +19,23 @@ Capistrano::Configuration.instance(:must_exist).load do
 
   _cset :runner_group, "www-data"
   _cset :group_writable, false
-  
+
   _cset(:deploy_to) { "/var/www/#{application}" }
   _cset(:app_path) { "drupal" }
   _cset :shared_children, false
-  
+
   if download_drush
     depend :remote, :command, "curl"
   end
 
   after "deploy:finalize_update" do
- 
+
     if download_drush
       drush.get
     end
-    
+
     drupal.symlink_shared
-    
+
     drush.site_offline
     drush.updatedb
     drush.cache_clear
@@ -46,7 +46,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
   # This is an optional step that can be defined.
   #after "deploy", "git:push_deploy_tag"
-  
+
   namespace :deploy do
     desc <<-DESC
       Prepares one or more servers for deployment. Before you can use any \
@@ -71,7 +71,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
     end
   end
-  
+
   namespace :drupal do
     desc "Symlinks static directories and static files that need to remain between deployments"
     task :symlink_shared, :roles => :app, :except => { :no_release => true } do
@@ -95,7 +95,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
     end
   end
-  
+
   namespace :files do
     desc "Pull drupal sites files (from remote to local)"
     task :pull, :roles => :app, :except => { :no_release => true } do
@@ -130,12 +130,13 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
 
    end
-  
+
   namespace :drush do
 
     desc "Gets drush and installs it"
     task :get, :roles => :app, :except => { :no_release => true } do
-      run "#{try_sudo} cd #{shared_path} && curl -O -s http://ftp.drupal.org/files/projects/drush-7.x-5.8.tar.gz && tar -xf drush-7.x-5.8.tar.gz && rm drush-7.x-5.8.tar.gz"
+      run "#{try_sudo} cd #{shared_path} && wget https://github.com/drush-ops/drush/archive/6.5.0.tar.gz && tar -xf 6.5.0.tar.gz && rm 6.5.0.tar.gz"
+      run "#{try_sudo} cd #{shared_path} && mkdir drush && mv drush-6.5.0 drush/drush"
       run "#{try_sudo} cd #{shared_path} && chmod u+x drush/drush"
     end
 
@@ -172,5 +173,5 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
 
   end
-  
+
 end
