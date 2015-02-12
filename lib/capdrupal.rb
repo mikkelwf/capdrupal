@@ -39,7 +39,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     drush.site_offline
     drush.updatedb
     drush.cache_clear
-    drush.feature_revert
+    # drush.feature_revert
     drush.site_online
     drush.cache_clear
   end
@@ -135,7 +135,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     desc "Gets drush and installs it"
     task :get, :roles => :app, :except => { :no_release => true } do
-      run "cd #{shared_path} && if ! [ -d #{shared_path}/drush/drush ]; then wget https://github.com/drush-ops/drush/archive/6.5.0.tar.gz && tar -xf 6.5.0.tar.gz && rm 6.5.0.tar.gz && mkdir -p drush && mv drush-6.5.0 drush/drush && chmod u+x drush/drush; fi"
+      run "cd #{shared_path} && if ! [ -d #{shared_path}/drush/drush ]; then wget https://github.com/drush-ops/drush/archive/6.5.0.tar.gz && tar -xf 6.5.0.tar.gz && rm 6.5.0.tar.gz -C drush && && chmod u+x drush/drush; fi"
     end
 
     desc "Set the site offline"
